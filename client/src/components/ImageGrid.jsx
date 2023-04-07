@@ -172,13 +172,17 @@ const images = [
 ];
 
 export default function ImageGrid() {
+	const handleClick = (_, image) => {
+		window.open(image.src, '_blank');
+	};
+
 	return (
-		<div className='relative w-full top-10 mx-auto'>
+		<div>
 			<Gallery
 				images={images}
 				enableImageSelection={false}
-				margin={5}
-				rowHeight={300}
+				rowHeight={400}
+				onClick={handleClick}
 			/>
 		</div>
 	);
