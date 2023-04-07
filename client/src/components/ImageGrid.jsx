@@ -1,4 +1,5 @@
 import { Gallery } from 'react-grid-gallery';
+import '../styles/global.css';
 
 const images = [
 	{
@@ -177,12 +178,26 @@ export default function ImageGrid() {
 	};
 
 	return (
-		<div>
+		<div className='h-screen overflow-y-scroll px-1 justify-center'>
 			<Gallery
 				images={images}
 				enableImageSelection={false}
 				rowHeight={400}
 				onClick={handleClick}
+				tagStyle={{
+					display: 'inline',
+					padding: '.2em .6em .3em',
+					fontSize: '75%',
+					fontWeight: '500',
+					fontFamily: 'Poppins',
+					lineHeight: '1',
+					color: 'white',
+					background: 'rgba(0,0,0,1)',
+					textAlign: 'center',
+					whiteSpace: 'nowrap',
+					verticalAlign: 'baseline',
+					borderRadius: '.25em',
+				}}
 			/>
 		</div>
 	);

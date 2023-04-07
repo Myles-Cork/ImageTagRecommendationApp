@@ -18,7 +18,6 @@ export default function TagSelection() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		navigate('/');
-		window.location.reload();
 	};
 
 	return (
