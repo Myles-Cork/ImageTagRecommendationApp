@@ -27,6 +27,8 @@ services:
       - app
   db:
     build: ./db
+    ports: 
+      - '27017:27017'
 
 volumes:
   node-modules:

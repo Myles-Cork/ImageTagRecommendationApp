@@ -1,0 +1,3 @@
+Resources,"Description","URL","Parameters","Method","Status Codes"
+AddImage,"Add image with tags to db","/addimage","url,tags","POST","200"
+QueryImages,"Retrieve list of images with specified tag","/queryimages","tag","POST","200"
