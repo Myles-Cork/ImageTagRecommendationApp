@@ -19,6 +19,7 @@ def responseDict(status, msg):
     }
     return retJson
 
+# Increment the count of the passed tags in the db. Inserts new tag documents for tags that don't already exist
 def incrementTags(tags):
     if len(tags) != 0:
         # Get tags that already exist in db
@@ -42,6 +43,7 @@ def incrementTags(tags):
             { "$inc": { "count": 1 } }
         )
 
+# Decrement the count of the passed tags in the db. Deletes tag documents that have 0 count after decrementing
 def decrementTags(tags):
     if len(tags) != 0:
         # decrement all tag counts by 1
@@ -73,6 +75,7 @@ class AddImage(Resource):
             # Increment added tags
             incrementTags(addedTags)
 
+            # Update the image in db
             imageCollection.update_one(
                 { "url": url },
                 { "$set": { "tags": newTags } }
@@ -80,10 +83,10 @@ class AddImage(Resource):
             msg = "Image and Tags Sucessfully Updated"
         else:
             # If image doesn't exist, add new entry to db
-
             # Increment tags
             incrementTags(newTags)
 
+            # Add new image to db
             imageCollection.insert_one({
                 "url": url,
                 "tags": newTags
@@ -114,7 +117,7 @@ class QueryImages(Resource):
     
 class GetTags(Resource):
     def get(self):
-        # Return all tag documents (without id)
+        # Return all tag documents (without _id)
         return(list(tagCollection.find({},{"_id":0,"name":1,"count":1})))
 
 
