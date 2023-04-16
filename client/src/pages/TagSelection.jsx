@@ -27,8 +27,6 @@ export default function TagSelection() {
 			});
 		}
 
-		console.log(tags);
-
 		// Call api and give image url+tags
 		let jsonData = {
 			"url": location.state,
