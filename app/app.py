@@ -99,15 +99,15 @@ class QueryImages(Resource):
     def post(self):
         postedData = request.get_json()
 
-        tag = postedData["tag"]
+        tags = postedData["tags"]
         
         imageDocs = []
-        if(tag == "*"):
+        if(len(tags) == 0):
             # Get all images
             imageDocs = list(imageCollection.find())
         else:
             # Find images with tag
-            imageDocs = list(imageCollection.find({"tags": { "$elemMatch": { "$eq": tag } }}))
+            imageDocs = list(imageCollection.find({"tags": { "$elemMatch": { "$in": tags } }}))
 
         imageList = []
         for imageDoc in imageDocs:
