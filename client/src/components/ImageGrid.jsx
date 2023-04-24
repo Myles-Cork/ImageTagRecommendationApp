@@ -6,8 +6,10 @@ function ImageGrid(props) {
 	const [images, setImages] = useState([]);
 
 	useEffect(() => {
+		const tagList = props.selectedTags.map((tag) => tag.tag);
+
 		let jsonData = {
-			tag: '*',
+			tags: tagList,
 		};
 
 		fetch('http://localhost:5000/queryimages', {
@@ -20,27 +22,11 @@ function ImageGrid(props) {
 			.then((data) => {
 				let imgs = [];
 				data.forEach((img) => {
-					let selectedTags = [];
-					props.selectedTags.forEach((tag) => {
-						selectedTags.push(tag['tag']);
+					const tags = img.tags.map((tag) => ({ value: tag, title: tag }));
+					imgs.push({
+						src: img.url,
+						tags: tags,
 					});
-					let tags = [];
-					img['tags'].forEach((tag) => {
-						tags.push({ value: tag, title: tag });
-					});
-					let tagvalues = [];
-					tags.forEach((tag) => {
-						tagvalues.push(tag['value']);
-					});
-					if (
-						tagvalues.filter((value) => selectedTags.includes(value)).length !==
-						0
-					) {
-						imgs.push({
-							src: img['url'],
-							tags: tags,
-						});
-					}
 				});
 				setImages(imgs);
 			})

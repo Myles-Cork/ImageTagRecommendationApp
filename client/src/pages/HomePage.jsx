@@ -27,10 +27,6 @@ export default function HomePage() {
 			.catch((error) => console.log('error', error));
 	}, []);
 
-	useEffect(() => {
-		setSelectedTags(allTags);
-	}, [allTags]);
-
 	return (
 		<div>
 			<header className='fixed flex flex-row bg-white w-full justify-between p-5 z-20'>
