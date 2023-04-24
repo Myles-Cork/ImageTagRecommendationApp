@@ -15,13 +15,15 @@ export default function HomePage() {
 			.then((response) => response.json())
 			.then((data) => {
 				let fetchedTags = [];
-				data.forEach((tag) => {
-					if (!fetchedTags.includes(tag['name'])) {
-						fetchedTags.push({ tag: tag['name'], id: data.indexOf(tag) });
-					}
-				});
-				// sort tags alphabetically
-				fetchedTags.sort((a, b) => (a.tag > b.tag ? 1 : -1));
+				if (data.length !== 0) {
+					data.forEach((tag) => {
+						if (!fetchedTags.includes(tag['name'])) {
+							fetchedTags.push({ tag: tag['name'], id: data.indexOf(tag) });
+						}
+					});
+					// sort tags alphabetically
+					fetchedTags.sort((a, b) => (a.tag > b.tag ? 1 : -1));
+				}
 				setAllTags(fetchedTags);
 			})
 			.catch((error) => console.log('error', error));
@@ -37,7 +39,9 @@ export default function HomePage() {
 				/>
 				<ImageUpload />
 			</header>
-			<ImageGrid selectedTags={selectedTags} />
+			<div className='pt-20'>
+				<ImageGrid selectedTags={selectedTags} />
+			</div>
 		</div>
 	);
 }
