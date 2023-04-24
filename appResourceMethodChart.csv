@@ -1,4 +1,4 @@
 Resources,"Description","URL","Parameters","Method","Status Codes"
-AddImage,"Add image with tags to db","/addimage","url,tags","POST","200"
-QueryImages,"Retrieve list of images with specified tag","/queryimages","tag","POST","200"
-GetTags,"Get list of tags in database with counts","/gettag",,"GET","200"
+AddImage,"Add image with tags to db.","/addimage","url,tags","POST","200"
+QueryImages,"Retrieve list of images with specified tags. If tags is empty, returns all images.","/queryimages","tags","POST","200"
+GetTags,"Get list of tags in database with counts.","/gettag",,"GET","200"
