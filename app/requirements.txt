@@ -1,4 +1,8 @@
 Flask==2.2.3
-flask_restful
+flask-restful
 flask-cors
 pymongo
+Pillow
+transformers
+torch
+requests

@@ -20,13 +20,12 @@ function ImageGrid(props) {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				let imgs = [];
-				data.forEach((img) => {
+				const imgs = data.map((img) => {
 					const tags = img.tags.map((tag) => ({ value: tag, title: tag }));
-					imgs.push({
+					return {
 						src: img.url,
 						tags: tags,
-					});
+					};
 				});
 				setImages(imgs);
 			})
@@ -38,7 +37,7 @@ function ImageGrid(props) {
 	};
 
 	return (
-		<div className='h-screen overflow-y-scroll px-1 justify-center'>
+		<div className='px-1'>
 			<Gallery
 				images={images}
 				enableImageSelection={false}
