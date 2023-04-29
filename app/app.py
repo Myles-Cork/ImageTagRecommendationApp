@@ -3,7 +3,7 @@ from flask_restful import Api, Resource
 from flask_cors import CORS
 from pymongo import MongoClient
 from PIL import Image
-from transformers import AutoImageProcessor, ViTForImageClassification
+from transformers import ConvNextFeatureExtractor, ConvNextForImageClassification
 import torch
 import requests
 
@@ -145,22 +145,29 @@ class PredictTags(Resource):
         image = Image.open(requests.get(url, stream=True).raw)
 
         # Process the image
-        processor = AutoImageProcessor.from_pretrained(
-            'google/vit-base-patch16-224')
+        processor = ConvNextFeatureExtractor.from_pretrained(
+            'facebook/convnext-tiny-224')
         inputs = processor(images=image, return_tensors="pt")
 
         # Classify the image
-        model = ViTForImageClassification.from_pretrained(
-            'google/vit-base-patch16-224')
+        model = ConvNextForImageClassification.from_pretrained(
+            'facebook/convnext-tiny-224')
         classes = list(model.config.id2label.values())
         outputs = model(**inputs)
         logits = outputs.logits
-        probabilities = torch.nn.functional.softmax(logits, dim=-1).tolist()[0]
 
-        tags = []
+        # Get top 5 values
+        _, topk_idx = torch.topk(logits, k=5, axis=-1)
+        tags = [model.config.id2label[x].partition(
+            ",")[0].lower() for x in topk_idx.tolist()[0]]
+        probabilities = torch.nn.functional.softmax(
+            logits, dim=-1).tolist()[0]
+
+        # Add to output if probability is over 0.5
         for i, p in enumerate(probabilities):
-            if p > 0.5:
-                tags.append(classes[i])
+            clean_class = classes[i].partition(",")[0].lower()
+            if p > 0.5 and clean_class not in tags:
+                tags.append(clean_class)
 
         return jsonify(tags)
 
