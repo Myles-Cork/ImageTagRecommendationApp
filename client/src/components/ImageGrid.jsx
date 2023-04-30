@@ -37,11 +37,11 @@ function ImageGrid(props) {
 	};
 
 	return (
-		<div className='px-1'>
+		<div className='overflow-y-auto px-2'>
 			<Gallery
 				images={images}
 				enableImageSelection={false}
-				rowHeight={400}
+				rowHeight={300}
 				onClick={handleClick}
 				tagStyle={{
 					display: 'inline',

@@ -33,6 +33,7 @@ export default function TagSelection() {
 			url: location.state,
 		};
 
+		console.time('predictiontimer');
 		fetch('http://localhost:5000/predicttags', {
 			method: 'POST',
 			mode: 'cors',
@@ -41,6 +42,7 @@ export default function TagSelection() {
 		})
 			.then((response) => response.json())
 			.then((data) => {
+				console.timeEnd('predictiontimer');
 				setLoading(false);
 				if (data.length !== 0) {
 					setSuggestedTags(data);
